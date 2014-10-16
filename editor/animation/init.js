@@ -82,9 +82,8 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
                 var result_addon = data.ext["result_addon"];
                 var maze = data.ext["maze"];
                 var player = data.ext["old_player"];
-                var shifts = data.ext["old_shifts"];
 
-                svg.drawMaze(maze, checkioInput, player);
+                svg.drawMaze(maze, checkioInput[0], player);
 
                 svg.moving(userResult);
 
@@ -188,22 +187,29 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
                         if (symb == "E") {
                             exit = paper.text(pad + cell * (j + 0.5), pad + cell * (i + 0.5), "E").attr(aFullExit);
                         }
-                        console.log("playerCoor", playerCoor);
-                        console.log("i j", i, j);
-                        console.log("i j", i, j);
-                        console.log("visible", visible);
-                        if ((j == playerCoor[1] && i < (playerCoor[0] + visible["E"]) && i > (playerCoor[0] - visible["W"])) ||
-                            (i == playerCoor[0] && j < (playerCoor[1] + visible["S"]) && j > (playerCoor[1] - visible["N"]))) {
-                            if (symb == "X") {
-                                r.attr("fill", colorBlue4);
-                            }
-                            else {
-                                r.attr("fill", colorBlue1);
-                            }
-                        }
                     }
                     grid.push(temp);
                 }
+
+                for (i = playerCoor[0] - visible["N"] - 1; i <= playerCoor[0] + visible["S"] + 1; i++) {
+                    if (maze[i][playerCoor[1]] == "X") {
+                        grid[i][playerCoor[1]].attr("fill", colorBlue4);
+                    }
+                    else {
+                        grid[i][playerCoor[1]].attr("fill", colorBlue1);
+                    }
+                }
+                for (j = playerCoor[1] - visible["W"] - 1; j <= playerCoor[1] + visible["E"] + 1; j++) {
+                    if (maze[playerCoor[0]][j] == "X") {
+                        grid[playerCoor[0]][j].attr("fill", colorBlue4);
+                    }
+                    else {
+                        grid[playerCoor[0]][j].attr("fill", colorBlue1);
+                    }
+                }
+
+
+
                 player = paper.circle(
                     pad + cell * (playerCoor[1] + 0.5), pad + cell * (playerCoor[0] + 0.5), cell / 3
                 ).attr(aPlayer);

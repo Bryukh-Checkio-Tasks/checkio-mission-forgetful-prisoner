@@ -20,7 +20,7 @@ DIRS = {"N": (-1, 0), "S": (1, 0), "W": (0, -1), "E": (0, 1)}
 WALL = "X"
 EXIT = "E"
 EMPTY = "."
-MAX_STEP = 250
+MAX_STEP = 300
 
 
 def get_visible(maze, player):

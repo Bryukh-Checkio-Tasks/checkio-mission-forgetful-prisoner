@@ -155,13 +155,13 @@ def generateMaze(N):
 
 for i in range(5, 8):
     name = "{}. Random".format(i)
-    maze = generateMaze(15)
+    maze = generateMaze(12)
     x = y = 0
     while maze[x][y] == "X":
-        x, y = random.randint(1, 13), random.randint(1, 13)
+        x, y = random.randint(1, 10), random.randint(1, 10)
     player = x, y
-    row_edges = [1, 7] if x // 8 else [8, 13]
-    col_edges = [1, 7] if y // 8 else [8, 13]
+    row_edges = [1, 5] if x // 6 else [6, 10]
+    col_edges = [1, 5] if y // 6 else [6, 10]
     x = y = 0
     while maze[x][y] == "X":
         x, y = random.randint(*row_edges), random.randint(*col_edges)

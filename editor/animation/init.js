@@ -40,10 +40,14 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
             }
 
             //YOUR FUNCTION NAME
-            var fname = 'checkio';
+            var fname = 'find_path';
 
-            var checkioInput = data.in;
-            var checkioInputStr = fname + '(' + JSON.stringify(checkioInput) + ')';
+            var checkioInput = data.in || [
+                "XXXX",
+                "XPEX",
+                "XXXX"
+            ];
+            var checkioInputStr = fname + '(' + JSON.stringify(checkioInput).replace("[", "(").replace("]", ")") + ')';
 
             var failError = function (dError) {
                 $content.find('.call').html(checkioInputStr);
@@ -69,18 +73,26 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
             $content.find('.call').html(checkioInputStr);
             $content.find('.output').html('Working...');
 
+            var svg = new SVG($content.find(".explanation")[0]);
+
 
             if (data.ext) {
-                var rightResult = data.ext["answer"];
                 var userResult = data.out;
                 var result = data.ext["result"];
                 var result_addon = data.ext["result_addon"];
+                var maze = data.ext["maze"];
+                var player = data.ext["old_player"];
+                var shifts = data.ext["old_shifts"];
+
+                svg.drawMaze(maze, checkioInput, player);
+
+                svg.moving(userResult);
 
                 //if you need additional info from tests (if exists)
                 var explanation = data.ext["explanation"];
                 $content.find('.output').html('&nbsp;Your result:&nbsp;' + JSON.stringify(userResult));
                 if (!result) {
-                    $content.find('.answer').html('Right result:&nbsp;' + JSON.stringify(rightResult));
+                    $content.find('.answer').html(result_addon);
                     $content.find('.answer').addClass('error');
                     $content.find('.output').addClass('error');
                     $content.find('.call').addClass('error');
@@ -121,22 +133,113 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
 //            });
 //        });
 
-        var colorOrange4 = "#F0801A";
-        var colorOrange3 = "#FA8F00";
-        var colorOrange2 = "#FAA600";
-        var colorOrange1 = "#FABA00";
+        function SVG(dom) {
 
-        var colorBlue4 = "#294270";
-        var colorBlue3 = "#006CA9";
-        var colorBlue2 = "#65A1CF";
-        var colorBlue1 = "#8FC7ED";
+            var colorOrange4 = "#F0801A";
+            var colorOrange3 = "#FA8F00";
+            var colorOrange2 = "#FAA600";
+            var colorOrange1 = "#FABA00";
 
-        var colorGrey4 = "#737370";
-        var colorGrey3 = "#9D9E9E";
-        var colorGrey2 = "#C5C6C6";
-        var colorGrey1 = "#EBEDED";
+            var colorBlue4 = "#294270";
+            var colorBlue3 = "#006CA9";
+            var colorBlue2 = "#65A1CF";
+            var colorBlue1 = "#8FC7ED";
 
-        var colorWhite = "#FFFFFF";
+            var colorGrey4 = "#737370";
+            var colorGrey3 = "#9D9E9E";
+            var colorGrey2 = "#C5C6C6";
+            var colorGrey1 = "#EBEDED";
+
+            var colorWhite = "#FFFFFF";
+
+            var paper;
+
+            var player;
+
+            var exit;
+
+            var grid;
+
+            var pad = 10;
+
+            var cell = 30;
+
+            var aCell = {"stroke": colorBlue4, "stroke-width": 2, "fill": colorGrey1};
+            var aFullExit = {"stroke": colorBlue4, "fill": colorBlue4, "font-family": "Roboto, Arial, sans", "font-size": cell};
+            var aEmptyExit = {"stroke": colorBlue2, "fill": colorBlue2, "font-family": "Roboto, Arial, sans", "font-size": cell};
+            var aPlayer = {"stroke": colorBlue4, "fill": colorOrange4, "stroke-width": 2};
+
+            var DIRS = {"N": [-1, 0], "S": [1, 0], "W": [0, -1], "E": [0, 1]};
+
+            this.drawMaze = function (maze, visible, playerCoor) {
+                paper = Raphael(dom, pad * 2 + cell * maze[0].length, pad * 2 + cell * maze.length);
+                grid = paper.set();
+                for (var i = 0; i < maze.length; i++) {
+                    var temp = paper.set();
+                    for (var j = 0; j < maze[0].length; j++) {
+                        var symb = maze[i][j];
+                        var r = paper.rect(pad + cell * j, pad + cell * i, cell, cell).attr(aCell);
+                        r.mark = symb;
+                        temp.push(r);
+
+                        if (symb == "X") {
+                            r.attr("fill", colorGrey3);
+                        }
+                        if (symb == "E") {
+                            exit = paper.text(pad + cell * (j + 0.5), pad + cell * (i + 0.5), "E").attr(aFullExit);
+                        }
+                        console.log("playerCoor", playerCoor);
+                        console.log("i j", i, j);
+                        console.log("i j", i, j);
+                        console.log("visible", visible);
+                        if ((j == playerCoor[1] && i < (playerCoor[0] + visible["E"]) && i > (playerCoor[0] - visible["W"])) ||
+                            (i == playerCoor[0] && j < (playerCoor[1] + visible["S"]) && j > (playerCoor[1] - visible["N"]))) {
+                            if (symb == "X") {
+                                r.attr("fill", colorBlue4);
+                            }
+                            else {
+                                r.attr("fill", colorBlue1);
+                            }
+                        }
+                    }
+                    grid.push(temp);
+                }
+                player = paper.circle(
+                    pad + cell * (playerCoor[1] + 0.5), pad + cell * (playerCoor[0] + 0.5), cell / 3
+                ).attr(aPlayer);
+                player.row = playerCoor[0];
+                player.col = playerCoor[1];
+            };
+
+
+            this.moving = function (data) {
+                var actions = data[0];
+                if (typeof(actions) !== "string") {
+                    return false;
+                }
+                var i = 0;
+                var stepTime = 200;
+                var delay = 100;
+                (function move() {
+                    var act = actions[i];
+                    if (grid[player.row][player.col].mark !== ".") {
+                        return false;
+                    }
+                    if ("NSWE".indexOf(act) === -1) {
+                        return false
+                    }
+                    player.row = player.row + DIRS[act][0];
+                    player.col = player.col + DIRS[act][1];
+                    i++;
+                    setTimeout(function () {
+                        player.animate({"transform": "...T" + (DIRS[act][1] * cell) + "," + (DIRS[act][0] * cell)},
+                            stepTime, callback = move);
+                    }, delay);
+                })();
+            }
+
+        }
+
         //Your Additional functions or objects inside scope
         //
         //

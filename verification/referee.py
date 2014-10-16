@@ -25,7 +25,7 @@ MAX_STEP = 250
 
 def get_visible(maze, player):
     result = {}
-    for direction, (dr, dc) in DIRS.values():
+    for direction, (dr, dc) in DIRS.items():
         cr, cc = player
         distance = -1
         while maze[cr][cc] != WALL:
@@ -54,7 +54,7 @@ def process(data, user_result):
         })
         return data
     actions, memory = user_result
-    if not isinstance(actions, str) or any(ch not in DIRS.keys() for ch in user_result):
+    if not isinstance(actions, str) or any(ch not in DIRS.keys() for ch in actions):
         data.update({
             "result": False,
             "result_addon": "The actions string should return a string with directions."
@@ -115,6 +115,13 @@ class CheckiORefereeMultiReset(CheckiORefereeMulti):
         self.next_step = False
         super().__init__(*args, **kwargs)
 
+    def test_current_step(self, dummy=None):
+        self.current_step += 1
+        api.execute_function(input_data=self.referee_data["input"],
+                             callback=self.check_current_test,
+                             errback=self.fail_cur_step,
+                             func=self.function_name)
+
 
     def check_current_test(self, data):
         user_result = data['result']
@@ -146,6 +153,7 @@ class CheckiORefereeMultiReset(CheckiORefereeMulti):
 
     def process_req_ended(self, data):
         if self.restarting_env:
+            print("RESTART!!!!")
             self.next_step = False
             self.restarting_env = False
             self.start_env()
@@ -160,8 +168,8 @@ class CheckiORefereeMultiReset(CheckiORefereeMulti):
                          runner=self.runner,
                          prefix=REQ,
                          controller_type=SIMPLE,
-                         callback=self.run_success,
-                         errback=self.test_current_step,
+                         callback=self.test_current_step,
+                         errback=self.fail_cur_step,
                          add_close_builtins=self.add_close_builtins,
                          add_allowed_modules=self.add_allowed_modules,
                          remove_allowed_modules=self.remove_allowed_modules,
@@ -171,7 +179,7 @@ class CheckiORefereeMultiReset(CheckiORefereeMulti):
 
 api.add_listener(
     ON_CONNECT,
-    CheckiORefereeMulti(
+    CheckiORefereeMultiReset(
         tests=TESTS,
         cover_code={
             'python-27': cover_codes.unwrap_args,  # or None

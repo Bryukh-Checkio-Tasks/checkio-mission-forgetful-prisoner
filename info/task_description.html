@@ -1,9 +1,35 @@
 <p>
-    <i>( Describe task in general )</i>
+    <a href="">The Dark Labyrinth</a> was a training before this challenge.
+    You in a labyrinth again. It's dark here and we don't have a flashlight.
+    But we have ultrasound scanner and can define a depth of passages in four directions.
+    If you think that your problems are over, then we have news - you have problems with memory
+    and can remember only 100 bits between runs.
 </p>
 
 <p>
-    Sum two passed ints
+    The labyrinth has size 12x12 cells and surrounded by walls.
+    You are running in the dark, so be careful to not struck in a wall.
+    This is a "multicall" mission and as such, your function will be called until you have solved
+    the maze or run out of moves.
+    For each iteration you receive a dictionary with information about distances for walls
+    in four directions: "N" - North, "S" - South, "W" - West and "E" -
+    East. For example if a neighbour cell is wall, then the distance is 0.
+    You will see the exit only when you will be on the exit cell.
+</p>
+<p>
+    The second function argument is a "memory" number. For each iteration we restart environment,
+    thus you can not store data in global variables. Memory numbers is 100 bit, so it can be
+    from 0 (including) to 2<sup>100</sup>(excluding).
+</p>
+
+<p>
+   For each iteration your function should return one or several actions as a string with
+    directions and a memory number. Actions are described as directions:
+    "N" - North, "S" - South, "W" - West and "E" - East.
+    For example: the string "NWS" describes a sequence of three moves.
+    The memory numbes is an integer 0&nbsp;&le;&nbsp;n&nbsp;&le;&nbsp;2**100.
+    You run too fast so you shouldn’t make a move that would have you walk into a wall.
+    To make things interesting, you are limited to 300 moves (not iterations).
 </p>
 
 <p style="text-align: center;">
@@ -11,34 +37,34 @@
     <img class="for_editor_only" title="example" src="{{MEDIA}}example.png" alt="example" width="380px"/>
 </p>
 
-<p><i>( Explain input and output values )</i></p>
 <p>
-    <strong>Input: </strong> Two arguments. Both are int
+    <strong>Input: </strong> Two arguments.
+        A scanner results as a dictionary and a memory number as an integer.
 </p>
 
 <p>
-    <strong>Output: </strong> Int. 
+    <strong>Output: </strong> A tuple or a list with the action string and a memory number.
 </p>
 
 
 
 <div class="for_info_only">
-    <p><i>( Put some usage examples )</i></p>
     <p>
         <strong>Example:</strong>
     </p>
     <pre class="brush: python">
-checkio(3, 2) == 5
-checkio(5, 7) == 12
+
     </pre>
 </div>
 
 <p class="for_info_only">
     <strong>How it is used: </strong>
-    <i>(Here you can explain how it can be used in development and what is usage of this.)</i>
+
 </p>
 
 <p>
     <strong>Precondition:</strong>
-    <i>Constraints for Input</i>
+    The labyrinth are surrounded by walls.<br>
+    len(maze) == 12<br>
+    all(len(row) == len(maze) for row in visible)
 </p>

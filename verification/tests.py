@@ -8,7 +8,7 @@ Each test is dict with
 """
 
 TESTS = {
-    "0. Simple": {
+    "1. Simple": {
         "maze": [
             "XXXXXXXXXXXX",
             "X..........X",
@@ -24,21 +24,6 @@ TESTS = {
             "XXXXXXXXXXXX"
         ],
         "player": [1, 1]
-    },
-    "1. One": {
-        "maze": [
-            "XXXXXXXXXX",
-            "X....X...X",
-            "X.XXXX.X.X",
-            "X....X.X.X",
-            "X.XXXX.X.X",
-            "X.X....X.X",
-            "X.XXEX.X.X",
-            "X.XXXXXX.X",
-            "X........X",
-            "XXXXXXXXXX",
-        ],
-        "player": [1, 4]
     },
     "2. Second": {
         "maze": [
@@ -57,43 +42,20 @@ TESTS = {
         ],
         "player": [10, 10]
     },
-    "3. Big": {
+    "3. Left Rule": {
         "maze": [
-            "XXXXXXXXXXXXXXX",
-            "XXX...........X",
-            "X...XXXXXXXXX.X",
-            "X.X.X.......X.X",
-            "X.X.X.X.X.X.X.X",
-            "X.X.X.X.X.X.X.X",
-            "X.....XXXXX...X",
-            "X.X.X.......X.X",
-            "X.X.XXXX.X.XX.X",
-            "X.X.X..X.X.X..X",
-            "X...XX.X.XXXX.X",
-            "X.X..X.X....X.X",
-            "X.XXXX.XXXXXX.X",
-            "X........XE...X",
-            "XXXXXXXXXXXXXXX",
-        ],
-        "player": [2, 2]
-    },
-    "4. Left Rule": {
-        "maze": [
-            "XXXXXXXXXXXXXXX",
-            "X.............X",
-            "X.XXXXXXXXXXX.X",
-            "X.X.........X.X",
-            "X.X.XXX.XXX.X.X",
-            "X.X.X.....X.X.X",
-            "X.X.X.....X.X.X",
-            "X.X.X..E..X.X.X",
-            "X.X.X.....X.X.X",
-            "X.X.X.....X.X.X",
-            "X.X.XXXXXXX.X.X",
-            "X.X.........X.X",
-            "X.XXXXX.XXXXX.X",
-            "X.............X",
-            "XXXXXXXXXXXXXXX",
+            "XXXXXXXXXXXX",
+            "X..........X",
+            "X.XXXXXXXX.X",
+            "X.X......X.X",
+            "X.X.XX.X.X.X",
+            "X.X......X.X",
+            "X.X......X.X",
+            "X.X..E...X.X",
+            "X.X......X.X",
+            "X.XXXX.XXX.X",
+            "X..........X",
+            "XXXXXXXXXXXX",
         ],
         "player": [1, 7]
     }
@@ -153,7 +115,7 @@ def generateMaze(N):
     return maze
 
 
-for i in range(5, 8):
+for i in range(4, 7):
     name = "{}. Random".format(i)
     maze = generateMaze(12)
     x = y = 0

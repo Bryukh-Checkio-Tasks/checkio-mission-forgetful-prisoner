@@ -1,48 +1,51 @@
 <p>
-    <a href="">The Dark Labyrinth</a> was a training before this challenge.
-    You in a labyrinth again. It's dark here and we don't have a flashlight.
-    But we have ultrasound scanner and can define a depth of passages in four directions.
-    If you think that your problems are over, then we have news - you have problems with memory
-    and can remember only 100 bits between runs.
+    Consider
+    <a href="http://www.checkio.org/mission/dark-labyrinth/share/7c0b5e699632a3d59870f015e248d3f1/">
+        The Dark Labyrinth</a> to have been your training before taking on this challenge, young
+    grasshopper. Once again, you find yourself in a labyrinth. It's dark and the batteries in your
+    flashlight have died. Due to your preparedness, you have in your possession an ultrasound
+    scanner which can define the depth of passages in four directions. If you think that this will
+    solve all your problems, then we have some news for you. You can not remember anything and use
+    the scanner memory card. But it has an extremely limited capacity and can only remember 100 bits
+    between runs.
 </p>
 
 <p>
-    The labyrinth has size 12x12 cells and surrounded by walls.
-    You are running in the dark, so be careful to not struck in a wall.
-    This is a "multicall" mission and as such, your function will be called until you have solved
-    the maze or run out of moves.
-    For each iteration you receive a dictionary with information about distances for walls
-    in four directions: "N" - North, "S" - South, "W" - West and "E" -
-    East. For example if a neighbour cell is wall, then the distance is 0.
-    You will see the exit only when you will be on the exit cell.
+    The labyrinth is 12x12 cells and surrounded by walls on all sides. Keep in mind, you are
+    surrounded by darkness, so be careful to not run into a wall. This is a "multicall" mission and
+    as such, your function will be called until you have solved the maze or run out of moves. For
+    each iteration you receive a dictionary with information about the distances of walls in four
+    directions: "N" - North, "S" - South, "W" - West and "E" - East. For example: if a neighbour
+    cell is wall, then the distance is 0. You will see the exit only when you enter the exit cell.
+
 </p>
 <p>
-    The second function argument is a "memory" number. For each iteration we restart environment,
-    thus you can not store data in global variables. Memory numbers is 100 bit, so it can be
-    from 0 (including) to 2<sup>100</sup>(excluding).
+    The second function argument is a "memory" number. For each iteration we restart the
+    environment, thus you cannot store data in global variables. Memory numbers are 100 bit, so they
+    can range from 0 (including) to 2<sup>100</sup>(excluding).
+
 </p>
 
 <p>
-   For each iteration your function should return one or several actions as a string with
-    directions and a memory number. Actions are described as directions:
-    "N" - North, "S" - South, "W" - West and "E" - East.
-    For example: the string "NWS" describes a sequence of three moves.
-    The memory number is an integer 0&nbsp;&le;&nbsp;n&nbsp;&le;&nbsp;2**100.
-    This number will be given in your function.
-    You run too fast so you shouldn’t make a move that would have you walk into a wall.
-    To make things interesting, you are limited to 300 moves (not iterations).
+    For each iteration your function should return one or several actions as a string with
+    directions and a memory number. Actions are described as directions: "N" - North, "S" - South,
+    "W" - West and "E" - East. For example: the string "NWS" describes a sequence of three moves.
+    The memory number is an integer 0&nbsp;&le;&nbsp;n&nbsp;&lt;&nbsp;2**100.
+    This number will be given in your function in
+    the next iteration. You run too fast so you shouldn’t make a move that would have you walk into
+    a wall. To make things interesting, you are limited to 300 moves (not iterations).
+
 </p>
 
 
 <p>
     <strong>Input: </strong> Two arguments.
-        A scanner results as a dictionary and a memory number as an integer.
+    Scanner results as a dictionary and the memory number as an integer.
 </p>
 
 <p>
-    <strong>Output: </strong> A tuple or a list with the action string and a memory number.
+    <strong>Output: </strong> A tuple or a list with the action string and the memory number.
 </p>
-
 
 
 <div class="for_info_only">
@@ -56,8 +59,8 @@
 
 <p class="for_info_only">
     <strong>How it is used: </strong>
-    This concept is exporing mechanism with strong restricts,
-    but this could work even with deficiency of information.
+    This concept is an exploration mechanism with restrictions.
+    Build upon the concepts from the Dark Labyrinth to solve this challenge.
 </p>
 
 <p>

@@ -49,18 +49,18 @@ if __name__ == '__main__':
                     step += 1
 
     assert checker(find_path, (1, 1), [
-        "XXXXXXXXXXXX"
-        "X..........X"
-        "X.XXXXXXXX.X"
-        "X.X......X.X"
-        "X.X......X.X"
-        "X.X......X.X"
-        "X.X......X.X"
-        "X.X......X.X"
-        "X.X......X.X"
-        "X.XXXXXXXX.X"
-        "X.........EX"
-        "XXXXXXXXXXXX"
+        "XXXXXXXXXXXX",
+        "X..........X",
+        "X.XXXXXXXX.X",
+        "X.X......X.X",
+        "X.X......X.X",
+        "X.X......X.X",
+        "X.X......X.X",
+        "X.X......X.X",
+        "X.X......X.X",
+        "X.XXXXXXXX.X",
+        "X.........EX",
+        "XXXXXXXXXXXX",
     ]), "Simple"
     assert checker(find_path, (1, 4), [
         "XXXXXXXXXXXX",

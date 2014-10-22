@@ -58,7 +58,25 @@ TESTS = {
             "XXXXXXXXXXXX",
         ],
         "player": [1, 7]
-    }
+    },
+    "4. Vinc Maze": {
+        "maze": [
+            "XXXXXXXXXXXX",
+            "X..........X",
+            "X.XXXX...X.X",
+            "X...X....X.X",
+            "XXX..X.....X",
+            "X.X..X...X.X",
+            "X.X..X.E.X.X",
+            "X.X..X...X.X",
+            "X....X.....X",
+            "X.XXXXXXXX.X",
+            "X..........X",
+            "XXXXXXXXXXXX",
+        ],
+        "player": [8, 4]
+    },
+
 }
 
 import random
